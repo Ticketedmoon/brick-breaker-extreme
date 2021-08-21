@@ -4,21 +4,14 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 
-using sf::Time;
-using sf::Vector2f;
-using sf::RenderWindow;
-using sf::VideoMode;
-using sf::seconds;
-using sf::Color;
-
 class Engine {
 
 private:
     const unsigned int FPS = 60;
-    static const Time TimePerFrame;
+    static const sf::Time TimePerFrame;
 
-    Vector2f resolution;
-    RenderWindow window;
+    sf::Vector2i resolution;
+    sf::RenderWindow window;
 
 public:
     Engine();
