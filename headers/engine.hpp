@@ -3,13 +3,12 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
+#include "paddle.hpp"
 
 class Engine {
 
 private:
     const unsigned int FPS = 60;
-    static const sf::Time TimePerFrame;
-
     sf::Vector2i resolution;
     sf::RenderWindow window;
 
@@ -18,6 +17,5 @@ public:
     void draw();
     void run();
 };
-
 
 #endif //BRICK_BREAKER_EXTREME_ENGINE_HPP
