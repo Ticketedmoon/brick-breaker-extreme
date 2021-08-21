@@ -1,3 +1,4 @@
+#pragma once
 #ifndef BRICK_BREAKER_EXTREME_PADDLE_HPP
 #define BRICK_BREAKER_EXTREME_PADDLE_HPP
 
@@ -7,7 +8,7 @@ class Paddle {
 
 private:
     sf::RectangleShape rectangle;
-    const float velocity = 3.0;
+    float velocity = 3.0;
     float x;
     float y;
 

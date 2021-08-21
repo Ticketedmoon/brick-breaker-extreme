@@ -1,6 +1,7 @@
 #include "engine.hpp"
 #include <iostream>
 
+// Ball::ball;
 Paddle paddle;
 
 Engine::Engine() {
@@ -14,6 +15,11 @@ Engine::Engine() {
     float paddleXPosition = -(window.getSize().x / 2.f) + paddleWidth / 2.f;
     float paddleYPosition = -(window.getSize().y - 100.f);
     paddle = Paddle(paddleWidth, paddleHeight, paddleXPosition, paddleYPosition);
+
+    const float ballRadius = 80.f;
+    float ballX = -(window.getSize().x / 2.f) + paddleWidth / 2.f;
+    float ballY = -(window.getSize().y - 100.f);
+    //ball = Ball();
 }
 
 // Note: Run until window is closed

@@ -1,9 +1,10 @@
+#pragma once
 #ifndef BRICK_BREAKER_EXTREME_ENGINE_HPP
 #define BRICK_BREAKER_EXTREME_ENGINE_HPP
 
 #include <SFML/Graphics.hpp>
-#include <SFML/Graphics/RectangleShape.hpp>
 #include "paddle.hpp"
+#include "ball.hpp"
 
 class Engine {
 
