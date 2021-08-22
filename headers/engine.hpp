@@ -1,6 +1,4 @@
 #pragma once
-#ifndef BRICK_BREAKER_EXTREME_ENGINE_HPP
-#define BRICK_BREAKER_EXTREME_ENGINE_HPP
 
 #include <SFML/Graphics.hpp>
 #include "paddle.hpp"
@@ -18,5 +16,3 @@ public:
     void draw();
     void run();
 };
-
-#endif //BRICK_BREAKER_EXTREME_ENGINE_HPP

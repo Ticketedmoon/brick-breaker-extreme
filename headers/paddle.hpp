@@ -1,6 +1,4 @@
 #pragma once
-#ifndef BRICK_BREAKER_EXTREME_PADDLE_HPP
-#define BRICK_BREAKER_EXTREME_PADDLE_HPP
 
 #include <SFML/Graphics/RectangleShape.hpp>
 
@@ -18,6 +16,5 @@ public:
     sf::RectangleShape getRectangleShapeForPaddle();
     void moveLeft();
     void moveRight();
+    float getX();
 };
-
-#endif //BRICK_BREAKER_EXTREME_PADDLE_HPP

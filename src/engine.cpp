@@ -1,8 +1,12 @@
 #include "engine.hpp"
+#include "brick.hpp"
 #include <iostream>
 
-// Ball::ball;
+Ball ball;
 Paddle paddle;
+
+const int totalBricks = 1;
+Brick bricks[totalBricks];
 
 Engine::Engine() {
     resolution = sf::Vector2i(800, 600);
@@ -10,16 +14,24 @@ Engine::Engine() {
     window.setVerticalSyncEnabled(true);
     window.setFramerateLimit(FPS);
 
+    // Create paddle
     const float paddleWidth = 80.f;
     const float paddleHeight = 10.f;
-    float paddleXPosition = -(window.getSize().x / 2.f) + paddleWidth / 2.f;
-    float paddleYPosition = -(window.getSize().y - 100.f);
+    float paddleXPosition = (window.getSize().x / 2.f) - (paddleWidth / 2.f);
+    float paddleYPosition = window.getSize().y - 100.f;
     paddle = Paddle(paddleWidth, paddleHeight, paddleXPosition, paddleYPosition);
 
-    const float ballRadius = 80.f;
-    float ballX = -(window.getSize().x / 2.f) + paddleWidth / 2.f;
-    float ballY = -(window.getSize().y - 100.f);
-    //ball = Ball();
+    // Create ball
+    const float ballRadius = 20.f;
+    float ballStartX = (window.getSize().x / 2.f) - ballRadius;
+    float ballStartY = (window.getSize().y / 2.f) - ballRadius;
+    ball = Ball(ballRadius, ballStartX, ballStartY);
+
+    // Create bricks
+    for (int i = 0; i < totalBricks; i++)
+    {
+        bricks[i] = Brick(120, 40, (window.getSize().x / 2.f), 20, sf::Color::Red);
+    }
 }
 
 // Note: Run until window is closed
@@ -56,6 +68,10 @@ void Engine::draw() {
         paddle.moveRight();
     }
 
-    this -> window.draw(paddle.getRectangleShapeForPaddle());
-    this -> window.display();
+    this->window.draw(paddle.getRectangleShapeForPaddle());
+    this->window.draw(ball.getCircleShapeForBall());
+    this->window.draw(bricks[0].getRectangleShapeForBrick());
+
+    ball.play(paddle, bricks);
+    this->window.display();
 }
