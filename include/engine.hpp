@@ -15,4 +15,5 @@ public:
     Engine();
     void draw();
     void run();
+    static void destroyBrick(int brickIndex); // TODO: This probably should be in a different class (We should think about moving the bricks vector out of Engine.
 };

@@ -7,9 +7,10 @@
 Ball ball;
 Paddle paddle;
 
-Brick bricks[constants::TOTAL_BRICKS];
+std::vector<Brick> bricks;
 
-Engine::Engine() {
+Engine::Engine() 
+{
     resolution = sf::Vector2i(constants::WINDOW_WIDTH, constants::WINDOW_HEIGHT);
     window.create(sf::VideoMode(resolution.x, resolution.y), "Brick Breaker Extreme", sf::Style::Titlebar);
 
@@ -30,7 +31,7 @@ Engine::Engine() {
     const float ballRadius = 20.f;
     float ballStartX = (window.getSize().x / 2.f) - ballRadius;
     float ballStartY = (window.getSize().y / 2.f) - ballRadius;
-    ball = Ball(ballRadius, ballStartX, ballStartY);
+    ball = Ball(ballRadius, ballStartX, ballStartY, destroyBrick);
 
 	std::cout << "Creating bricks\n";
     // Create bricks
@@ -45,25 +46,23 @@ Engine::Engine() {
 			int g = rand() % 255;
 			int b = rand() % 255;
  			sf::Color color = sf::Color(r, g, b);
-			std::cout << "r,g,b: " << r << ", " << g << ", " << b << '\n';
-			std::cout << "xPos: " << xPos << '\n';
-
 			int brickIndex = (i * constants::TOTAL_BRICKS_PER_ROW) + j;
-			std::cout << brickIndex << '\n';
-			std::cout << "Xpos: " << xPos << ", yPos: " << yPos << '\n';
-			bricks[brickIndex] = Brick(constants::BRICK_WIDTH, constants::BRICK_HEIGHT, xPos, yPos, color);
+			bricks.push_back(Brick(constants::BRICK_WIDTH, constants::BRICK_HEIGHT, xPos, yPos, color));
 		}
 	}	
 }
 
 // Note: Run until window is closed
-void Engine::run() {
-    while (window.isOpen()) {
+void Engine::run() 
+{
+    while (window.isOpen()) 
+	{
         // Check for any event on the window
         sf::Event event{};
         while (window.pollEvent(event))
         {
-            switch (event.type) {
+            switch (event.type) 
+			{
                 case sf::Event::Closed:
                     window.close();
                     break;
@@ -79,14 +78,17 @@ void Engine::run() {
     }
 }
 
-void Engine::draw() {
-    this -> window.clear(sf::Color::Blue);
+void Engine::draw() 
+{
+    this->window.clear(sf::Color::Blue);
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) 
+	{
         paddle.moveLeft();
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) 
+	{
         paddle.moveRight();
     }
 
@@ -98,4 +100,12 @@ void Engine::draw() {
 	}
     ball.play(paddle, bricks);
     this->window.display();
+}
+
+void Engine::destroyBrick(int brickIndex)
+{
+	std::vector<Brick>::iterator brickIndexToRemove = bricks.begin() + brickIndex;
+	std::cout << "bricks size: " << bricks.size() << '\n';
+	bricks.erase(brickIndexToRemove);
+	std::cout << "bricks size: " << bricks.size() << '\n';
 }
