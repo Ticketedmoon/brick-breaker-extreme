@@ -29,15 +29,14 @@ void Ball::checkForBrickTouch(Brick bricks[]) {
                 brick.getRectangleShapeForBrick().getPosition().x <= (x+ball.getRadius()) &&
                 (brick.getRectangleShapeForBrick().getPosition().x + brick.getX()) >= x);
         bool isTouchingBrickY = (y - brick.getRectangleShapeForBrick().getPosition().y) <= tolerance;
-        std::cout << isWithinBrickX << ", " << isTouchingBrickY << std::endl;
         if (isTouchingBrickY && isWithinBrickX)
         {
-            flipVelocity();
+        	updateVelocity();
         }
     }
 }
 
-void Ball::checkForPaddleTouch(Paddle &paddle) {
+void Ball::checkForPaddleTouch(Paddle& paddle) {
     float tolerance = 35.0;
     bool isTouchingPaddleX = (
             (paddle.getRectangleShapeForPaddle().getPosition().x <= x) &&
@@ -45,7 +44,7 @@ void Ball::checkForPaddleTouch(Paddle &paddle) {
     bool isTouchingPaddleY = (paddle.getRectangleShapeForPaddle().getPosition().y - y) <= tolerance;
     if (isTouchingPaddleY && isTouchingPaddleX)
     {
-        flipVelocity();
+        updateVelocity();
     }
 }
 
@@ -53,6 +52,7 @@ sf::CircleShape Ball::getCircleShapeForBall() {
     return this -> ball;
 }
 
-void Ball::flipVelocity() {
+void Ball::updateVelocity() {
     this->velocity = -this->velocity;
 }
+

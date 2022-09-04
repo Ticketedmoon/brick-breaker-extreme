@@ -16,8 +16,8 @@ public:
     Ball();
     Ball(float radius, float x, float y);
     sf::CircleShape getCircleShapeForBall();
-    void flipVelocity();
+    void updateVelocity();
     void play(Paddle paddle, Brick bricks[]);
-    void checkForPaddleTouch(Paddle &paddle);
+    void checkForPaddleTouch(Paddle& paddle);
     void checkForBrickTouch(Brick bricks[]);
 };
