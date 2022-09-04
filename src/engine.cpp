@@ -51,7 +51,7 @@ Engine::Engine() {
 		for (int j = 0; j < TOTAL_BRICKS_PER_ROW; j++)
 		{
 			int xPos = j * BRICK_WIDTH;
-			int yPos = 20 + (i * 20);
+			int yPos = 20 + (i * BRICK_HEIGHT);
 			int r = rand() % 255; 
 			int g = rand() % 255;
 			int b = rand() % 255;
@@ -59,7 +59,7 @@ Engine::Engine() {
 			std::cout << "r,g,b: " << r << ", " << g << ", " << b << '\n';
 			std::cout << "xPos: " << xPos << '\n';
 
-			int brickIndex = i + j;
+			int brickIndex = (i * TOTAL_BRICKS_PER_ROW) + j;
 			std::cout << brickIndex << '\n';
 			std::cout << "Xpos: " << xPos << ", yPos: " << yPos << '\n';
 			bricks[brickIndex] = Brick(BRICK_WIDTH, BRICK_HEIGHT, xPos, yPos, color);
