@@ -15,11 +15,13 @@ Once you've progressed passed this step, you can now compile the src code.
 
 For Ubuntu/Debian distros, you can execute `run_compile.sh` for the program to be compiled.  
 **Note:** If this doesn't work, open the `run_compile.sh` file and identify if the sfml libraries are being linked to correctly.  
-
+  
 The command to compile the source code, specify the headers and link to external libs is:  
-`g++ ./src/*.cpp -o brick-breaker-extreme.exe -I./headers -lsfml-graphics -lsfml-window -lsfml-system`
+`g++ ./src/*.cpp -o brick-breaker-extreme.exe -I./include -lsfml-graphics -lsfml-window -lsfml-system`
 
 **Note:** You may need to update the external library linking for Windows and other Operating Systems.
+**Note:** You may need to specify the C++ version to use newer features in SFML. This can be done like so:
+`g++ -std=c++17 ./src/*.cpp -o brick-breaker-extreme.exe -I./include -lsfml-graphics -lsfml-window -lsfml-system`
 
 Alternatively, you can use `cmake` by:  
 1. cloning the SFML lib at https://github.com/SFML/SFML.  
@@ -28,6 +30,8 @@ Alternatively, you can use `cmake` by:
    the appropriate necessary libs. Use `apt-cache search` for that.
 4. Once resolved, run `cmake ..` again - SFML should install successfully.
 5. Compile with `g++` as per usual and include the SFML include header files with `-I{PATH_TO_SFML_INCLUDE_DIRECTORY}`
+   Also you will be required to include the SFML libraries. This will be the generated `lib` folder from the `cmake` script ran before.  
+   You can add `-L{PATH_TO_LIBS}` to your compilation command to specify a lib directory.
 
 
 **Error Log:**
