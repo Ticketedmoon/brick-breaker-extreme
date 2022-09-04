@@ -35,6 +35,11 @@ Alternatively, you can use `cmake` by:
    - You will also be required to specify the needed components like so:   
    `-lsfml-graphics -lsfml-window -lsfml-system`
 
+### Library linking issues at runtime
+If you have no errors with compilation, but face errors at runtime regarding libary loading, you can run:  
+- `ldd {PATH_TO_GENERATED_EXECUTABLE}` to see how libraries are linked to your binary.
+- You can run `ldconfig {PATH_TO_LIB_DIRECTORY}` to automatically configure libs for your application's runtime.
+
 
 **Error Log:**
 - sfml-graphics-d-2, sfml-system-d-2.  
