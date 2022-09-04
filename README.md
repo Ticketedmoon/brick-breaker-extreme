@@ -31,7 +31,9 @@ Alternatively, you can use `cmake` by:
 4. Once resolved, run `cmake ..` again - SFML should install successfully.
 5. Compile with `g++` as per usual and include the SFML include header files with `-I{PATH_TO_SFML_INCLUDE_DIRECTORY}`
    Also you will be required to include the SFML libraries. This will be the generated `lib` folder from the `cmake` script ran before.  
-   You can add `-L{PATH_TO_LIBS}` to your compilation command to specify a lib directory.
+   - You can add `-L{PATH_TO_LIBS}` to your compilation command to specify a lib directory.  
+   - You will also be required to specify the needed components like so:   
+   `-lsfml-graphics -lsfml-window -lsfml-system`
 
 
 **Error Log:**
