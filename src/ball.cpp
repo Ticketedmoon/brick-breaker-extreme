@@ -1,5 +1,6 @@
 #include <iostream>
 #include "ball.hpp"
+#include "constants.hpp"
 
 Ball::Ball() = default;
 
@@ -20,7 +21,7 @@ void Ball::play(Paddle paddle, Brick bricks[]) {
 }
 
 void Ball::checkForBrickTouch(Brick bricks[]) {
-    for (int i = 0; i < 1; i++)
+    for (int i = 0; i < constants::TOTAL_BRICKS; i++)
     {
         Brick brick = bricks[i];
         float tolerance = 35.0;

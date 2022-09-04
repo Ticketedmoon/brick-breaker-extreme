@@ -1,31 +1,20 @@
 #include "engine.hpp"
 #include "brick.hpp"
+#include "constants.hpp"
 #include <iostream>
 #include <stdlib.h>
 
 Ball ball;
 Paddle paddle;
 
-const int WINDOW_WIDTH = 1280;
-const int WINDOW_HEIGHT = 720;
-const int X_SCREEN_LOCATION_OFFSET = 600;
-const int Y_SCREEN_LOCATION_OFFSET = 320;
-
-const int TOTAL_BRICKS = 32;
-const int BRICK_WIDTH = 160;
-const int BRICK_HEIGHT = 40;
-
-const int TOTAL_BRICKS_PER_ROW = WINDOW_WIDTH / BRICK_WIDTH;
-const int TOTAL_BRICK_ROWS = TOTAL_BRICKS / TOTAL_BRICKS_PER_ROW;
-
-Brick bricks[TOTAL_BRICKS];
+Brick bricks[constants::TOTAL_BRICKS];
 
 Engine::Engine() {
-    resolution = sf::Vector2i(WINDOW_WIDTH, WINDOW_HEIGHT);
+    resolution = sf::Vector2i(constants::WINDOW_WIDTH, constants::WINDOW_HEIGHT);
     window.create(sf::VideoMode(resolution.x, resolution.y), "Brick Breaker Extreme", sf::Style::Titlebar);
 
 	auto desktop = sf::VideoMode::getDesktopMode();
-	window.setPosition(sf::Vector2i(desktop.width/2 - X_SCREEN_LOCATION_OFFSET, desktop.height/2 - Y_SCREEN_LOCATION_OFFSET));
+	window.setPosition(sf::Vector2i(desktop.width/2 - constants::X_SCREEN_LOCATION_OFFSET, desktop.height/2 - constants::Y_SCREEN_LOCATION_OFFSET));
 
     window.setVerticalSyncEnabled(true);
     window.setFramerateLimit(FPS);
@@ -46,12 +35,12 @@ Engine::Engine() {
 	std::cout << "Creating bricks\n";
     // Create bricks
 	
-	for (int i = 0; i < TOTAL_BRICK_ROWS; i++) 
+	for (int i = 0; i < constants::TOTAL_BRICK_ROWS; i++) 
 	{
-		for (int j = 0; j < TOTAL_BRICKS_PER_ROW; j++)
+		for (int j = 0; j < constants::TOTAL_BRICKS_PER_ROW; j++)
 		{
-			int xPos = j * BRICK_WIDTH;
-			int yPos = 20 + (i * BRICK_HEIGHT);
+			int xPos = j * constants::BRICK_WIDTH;
+			int yPos = 20 + (i * constants::BRICK_HEIGHT);
 			int r = rand() % 255; 
 			int g = rand() % 255;
 			int b = rand() % 255;
@@ -59,10 +48,10 @@ Engine::Engine() {
 			std::cout << "r,g,b: " << r << ", " << g << ", " << b << '\n';
 			std::cout << "xPos: " << xPos << '\n';
 
-			int brickIndex = (i * TOTAL_BRICKS_PER_ROW) + j;
+			int brickIndex = (i * constants::TOTAL_BRICKS_PER_ROW) + j;
 			std::cout << brickIndex << '\n';
 			std::cout << "Xpos: " << xPos << ", yPos: " << yPos << '\n';
-			bricks[brickIndex] = Brick(BRICK_WIDTH, BRICK_HEIGHT, xPos, yPos, color);
+			bricks[brickIndex] = Brick(constants::BRICK_WIDTH, constants::BRICK_HEIGHT, xPos, yPos, color);
 		}
 	}	
 }
@@ -103,7 +92,7 @@ void Engine::draw() {
 
     this->window.draw(paddle.getRectangleShapeForPaddle());
     this->window.draw(ball.getCircleShapeForBall());
-	for (int i = 0; i < TOTAL_BRICKS; i++)
+	for (int i = 0; i < constants::TOTAL_BRICKS; i++)
 	{
     	this->window.draw(bricks[i].getRectangleShapeForBrick());
 	}
