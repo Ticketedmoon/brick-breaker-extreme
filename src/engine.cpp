@@ -11,6 +11,7 @@ std::vector<Brick> bricks;
 
 Engine::Engine() 
 {
+    // Window
     resolution = sf::Vector2i(constants::WINDOW_WIDTH, constants::WINDOW_HEIGHT);
     window.create(sf::VideoMode(resolution.x, resolution.y), "Brick Breaker Extreme", sf::Style::Titlebar);
 
@@ -20,6 +21,14 @@ Engine::Engine()
     window.setVerticalSyncEnabled(true);
     window.setFramerateLimit(FPS);
 
+    // Fonts
+    bool wasSuccessfullyLoaded = font.loadFromFile("./assets/fonts/totally_different.ttf");
+    // Must be loaded relative to where the executable is.
+    if (!wasSuccessfullyLoaded) 
+    {
+        throw std::runtime_error("Font failed to load");
+    }
+
     // Create paddle
     const float paddleWidth = 80.f;
     const float paddleHeight = 10.f;
@@ -28,14 +37,10 @@ Engine::Engine()
     paddle = Paddle(paddleWidth, paddleHeight, paddleXPosition, paddleYPosition);
 
     // Create ball
-    const float ballRadius = 20.f;
-    float ballStartX = (window.getSize().x / 2.f) - ballRadius;
-    float ballStartY = (window.getSize().y / 2.f) - ballRadius;
-    ball = Ball(ballRadius, ballStartX, ballStartY, destroyBrick);
+    Ball ball = Engine::createBall();
 
-	std::cout << "Creating bricks\n";
     // Create bricks
-	
+	std::cout << "Creating bricks\n";
 	for (int i = 0; i < constants::TOTAL_BRICK_ROWS; i++) 
 	{
 		for (int j = 0; j < constants::TOTAL_BRICKS_PER_ROW; j++)
@@ -74,31 +79,34 @@ void Engine::run()
                     break;
             }
         }
-        draw();
+        this->draw();
     }
 }
 
 void Engine::draw() 
 {
     this->window.clear(sf::Color::Blue);
+    if (isPlaying) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) 
+        {
+            paddle.moveLeft();
+        }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) 
-	{
-        paddle.moveLeft();
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) 
+        {
+            paddle.moveRight();
+        }
+
+        this->window.draw(paddle.getRectangleShapeForPaddle());
+        this->window.draw(ball.getCircleShapeForBall());
+        for (int i = 0; i < constants::TOTAL_BRICKS; i++)
+        {
+            this->window.draw(bricks[i].getRectangleShapeForBrick());
+        }
+        this->isPlaying = ball.play(paddle, bricks, resolution);
+    } else {
+        this->showGameOverView();
     }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) 
-	{
-        paddle.moveRight();
-    }
-
-    this->window.draw(paddle.getRectangleShapeForPaddle());
-    this->window.draw(ball.getCircleShapeForBall());
-	for (int i = 0; i < constants::TOTAL_BRICKS; i++)
-	{
-    	this->window.draw(bricks[i].getRectangleShapeForBrick());
-	}
-    ball.play(paddle, bricks);
     this->window.display();
 }
 
@@ -108,4 +116,31 @@ void Engine::destroyBrick(int brickIndex)
 	std::cout << "bricks size: " << bricks.size() << '\n';
 	bricks.erase(brickIndexToRemove);
 	std::cout << "bricks size: " << bricks.size() << '\n';
+}
+
+Ball Engine::createBall() {
+    const float ballRadius = 20.f;
+    float ballStartX = (window.getSize().x / 2.f) - ballRadius;
+    float ballStartY = (window.getSize().y / 2.f) - ballRadius;
+    std::cout << ballStartX << ',' << ballStartY << std::endl;
+    return Ball(ballRadius, ballStartX, ballStartY, destroyBrick);
+}
+
+void Engine::showGameOverView() {
+    sf::Text text = sf::Text("Game Over!\nPress [SPACE] to restart", font);
+    // set the character size
+    text.setCharacterSize(128); // in pixels, not points!
+    // set the color
+    text.setFillColor(sf::Color::Red);
+    // set the text style
+    text.setStyle(sf::Text::Bold | sf::Text::Underlined);
+    sf::FloatRect bounds = text.getLocalBounds();
+    text.setPosition(constants::WINDOW_WIDTH/2 - bounds.width/2, 225);
+    // inside the main loop, between window.clear() and window.display()
+    window.draw(text);
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) 
+    {
+        this->isPlaying = true;
+        ball = createBall();
+    }
 }

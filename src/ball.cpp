@@ -5,20 +5,29 @@
 Ball::Ball() = default;
 
 Ball::Ball(float radius, float x, float y, void (*destroyBrick)(int)) {
-    this -> x = x;
-    this -> y = y;
-    this -> ball = sf::CircleShape(radius);
-    this -> ball.setOutlineColor(sf::Color::Black);
-    this -> ball.setOutlineThickness(2.0);
-    this -> ball.setPosition(x, y);
-	this -> destroyBrick = destroyBrick;
+    this->x = x;
+    this->y = y;
+    this->ball = sf::CircleShape(radius);
+    this->ball.setOutlineColor(sf::Color::Black);
+    this->ball.setOutlineThickness(2.0);
+    this->ball.setPosition(x, y);
+	this->destroyBrick = destroyBrick;
+    std::cout << "Test: " << this->x << ',' << this->y << std::endl;
 }
 
-void Ball::play(Paddle paddle, std::vector<Brick>& bricks) {
+bool Ball::play(Paddle paddle, std::vector<Brick>& bricks, sf::Vector2i resolution) {
     checkForPaddleTouch(paddle);
     checkForBrickTouch(bricks);
-    y += velocity;
-    this->ball.setPosition(x, y);
+    this->x += velocityX;
+    this->y -= velocityY;
+
+    if (this->x >= resolution.x || this->y >= resolution.y) 
+    {
+        return false;
+    }
+
+    this->ball.setPosition(this->x, this->y);
+    return true;
 }
 
 void Ball::checkForBrickTouch(std::vector<Brick>& bricks) {
@@ -26,13 +35,15 @@ void Ball::checkForBrickTouch(std::vector<Brick>& bricks) {
     {
         Brick brick = bricks[i];
         float tolerance = 10.0;
+        std::cout << this->x << ',' << this->y << std::endl;
 		bool isBallAfterBrickStartX = brick.getRectangleShapeForBrick().getPosition().x <= (this->x+ball.getRadius());
 		bool isBallBeforeBrickEndX = (brick.getRectangleShapeForBrick().getPosition().x + brick.getWidth()) >= this->x;
         bool isTouchingBrickX = isBallAfterBrickStartX && isBallBeforeBrickEndX;
         bool isTouchingBrickY = (y - brick.getRectangleShapeForBrick().getPosition().y) <= tolerance;
         if (isTouchingBrickY && isTouchingBrickX)
         {
-        	updateVelocity();
+        	//updateVelocityX();
+        	updateVelocityY();
 			(*destroyBrick)(i);
         }
     }
@@ -46,15 +57,20 @@ void Ball::checkForPaddleTouch(Paddle& paddle) {
     bool isTouchingPaddleY = (paddle.getRectangleShapeForPaddle().getPosition().y - y) <= tolerance;
     if (isTouchingPaddleY && isTouchingPaddleX)
     {
-        updateVelocity();
+        updateVelocityX();
+        updateVelocityY();
     }
 }
 
 sf::CircleShape Ball::getCircleShapeForBall() {
-    return this -> ball;
+    return this->ball;
 }
 
-void Ball::updateVelocity() {
-    this->velocity = -this->velocity;
+void Ball::updateVelocityX() {
+    this->velocityX = -this->velocityX;
+}
+
+void Ball::updateVelocityY() {
+    this->velocityY = -this->velocityY;
 }
 

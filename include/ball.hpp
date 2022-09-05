@@ -8,7 +8,8 @@ class Ball {
 
 private:
     sf::CircleShape ball;
-    float velocity = 10.0;
+    float velocityX = 5.0;
+    float velocityY = 5.0;
     float x;
     float y;
 	void (*destroyBrick)(int);
@@ -17,8 +18,9 @@ public:
     Ball();
     Ball(float radius, float x, float y, void (*destroyBrick)(int));
     sf::CircleShape getCircleShapeForBall();
-    void updateVelocity();
-    void play(Paddle paddle, std::vector<Brick>& bricks);
+    void updateVelocityX();
+    void updateVelocityY();
+    bool play(Paddle paddle, std::vector<Brick>& bricks, sf::Vector2i resoution);
     void checkForPaddleTouch(Paddle& paddle);
     void checkForBrickTouch(std::vector<Brick>& bricks);
 };

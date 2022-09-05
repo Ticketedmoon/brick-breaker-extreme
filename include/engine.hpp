@@ -10,6 +10,11 @@ private:
     const unsigned int FPS = 60;
     sf::Vector2i resolution;
     sf::RenderWindow window;
+    bool isPlaying = true;
+    sf::Font font;
+
+    Ball createBall();
+    void showGameOverView();
 
 public:
     Engine();
