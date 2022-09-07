@@ -13,6 +13,7 @@ private:
     bool isPlaying = true;
     sf::Font font;
 
+    Paddle createPaddle();
     Ball createBall();
     void showGameOverView();
 

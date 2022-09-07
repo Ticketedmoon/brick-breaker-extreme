@@ -12,7 +12,6 @@ Ball::Ball(float radius, float x, float y, void (*destroyBrick)(int)) {
     this->ball.setOutlineThickness(2.0);
     this->ball.setPosition(x, y);
 	this->destroyBrick = destroyBrick;
-    std::cout << "Test: " << this->x << ',' << this->y << std::endl;
 }
 
 bool Ball::play(Paddle paddle, std::vector<Brick>& bricks, sf::Vector2i resolution) {
@@ -31,11 +30,10 @@ bool Ball::play(Paddle paddle, std::vector<Brick>& bricks, sf::Vector2i resoluti
 }
 
 void Ball::checkForBrickTouch(std::vector<Brick>& bricks) {
-    for (int i = 0; i < constants::TOTAL_BRICKS; i++)
+    for (int i = 0; i < bricks.size(); i++)
     {
         Brick brick = bricks[i];
         float tolerance = 10.0;
-        std::cout << this->x << ',' << this->y << std::endl;
 		bool isBallAfterBrickStartX = brick.getRectangleShapeForBrick().getPosition().x <= (this->x+ball.getRadius());
 		bool isBallBeforeBrickEndX = (brick.getRectangleShapeForBrick().getPosition().x + brick.getWidth()) >= this->x;
         bool isTouchingBrickX = isBallAfterBrickStartX && isBallBeforeBrickEndX;
@@ -44,6 +42,7 @@ void Ball::checkForBrickTouch(std::vector<Brick>& bricks) {
         {
         	//updateVelocityX();
         	updateVelocityY();
+            std::cout << "brick ID: " << i << std::endl;
 			(*destroyBrick)(i);
         }
     }
@@ -74,3 +73,10 @@ void Ball::updateVelocityY() {
     this->velocityY = -this->velocityY;
 }
 
+float Ball::getX() {
+    return this->x;
+}
+
+float Ball::getY() {
+    return this->y;
+}

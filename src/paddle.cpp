@@ -16,7 +16,6 @@ sf::RectangleShape Paddle::getRectangleShapeForPaddle() {
 
 void Paddle::moveLeft() {
     x -= velocity;
-	std::cout << "paddle x:" << x;
     this->rectangle.setPosition(x, this->y);
 }
 
