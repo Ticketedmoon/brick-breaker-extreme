@@ -2,6 +2,8 @@
 #include "ball.hpp"
 #include "constants.hpp"
 
+const int WINDOW_STANDARD_OFFSET_FOR_BALL_COLLISION = 20; 
+
 Ball::Ball() = default;
 
 Ball::Ball(float radius, float x, float y, void (*destroyBrick)(int)) {
@@ -14,18 +16,40 @@ Ball::Ball(float radius, float x, float y, void (*destroyBrick)(int)) {
 	this->destroyBrick = destroyBrick;
 }
 
-bool Ball::play(Paddle paddle, std::vector<Brick>& bricks, sf::Vector2i resolution) {
+bool Ball::play(Paddle paddle, std::vector<Brick>& bricks, sf::Vector2i resolution) 
+{
     checkForPaddleTouch(paddle);
     checkForBrickTouch(bricks);
+
+    // Window touch check
+    bool isBallInFlight = checkForWindowBorderCollision(resolution);
+
     this->x += velocityX;
     this->y -= velocityY;
 
-    if (this->x >= resolution.x || this->y >= resolution.y) 
+    this->ball.setPosition(this->x, this->y);
+    return isBallInFlight;
+}
+
+bool Ball::checkForWindowBorderCollision(sf::Vector2i resolution) 
+{
+    
+    bool isTouchingDeathZoneBottomBorder = this->y >= resolution.y - WINDOW_STANDARD_OFFSET_FOR_BALL_COLLISION;
+    if (isTouchingDeathZoneBottomBorder) 
     {
         return false;
     }
 
-    this->ball.setPosition(this->x, this->y);
+    bool isTouchingLeftOrRightBorder = this->x <= -WINDOW_STANDARD_OFFSET_FOR_BALL_COLLISION || this->x >= resolution.x;
+    bool isTouchTopBorder = (this->y <= 0);
+    if (isTouchingLeftOrRightBorder) 
+    {
+        updateVelocityX();
+    } 
+    if (isTouchTopBorder)
+    {
+        updateVelocityY();
+    }
     return true;
 }
 
