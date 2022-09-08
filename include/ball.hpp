@@ -7,11 +7,13 @@
 class Ball {
 
 private:
-    sf::CircleShape ball;
-    float velocityX = 10.0;
-    float velocityY = 7.5;
     float x;
     float y;
+    float radius;
+    float velocityX = 10.0;
+    float velocityY = 7.5;
+
+    sf::CircleShape ball;
 
     void updateVelocityX();
     void updateVelocityY();

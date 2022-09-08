@@ -6,6 +6,8 @@ Paddle::Paddle() = default;
 Paddle::Paddle(float width, float height, float x, float y) {
     this->x = x;
     this->y = y;
+    this->width = width;
+    this->height = height;
     this->rectangle = sf::RectangleShape(sf::Vector2f(width, height));
     this->rectangle.setPosition(x, y);
 }
@@ -26,4 +28,8 @@ void Paddle::moveRight() {
 
 float Paddle::getX() {
     return this->x;
+}
+
+float Paddle::getWidth() {
+    return this->width;
 }

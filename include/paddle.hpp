@@ -9,6 +9,8 @@ private:
     float velocity = 10.0;
     float x;
     float y;
+    float width;
+    float height;
 
 public:
     Paddle();
@@ -17,4 +19,5 @@ public:
     void moveLeft();
     void moveRight();
     float getX();
+    float getWidth();
 };

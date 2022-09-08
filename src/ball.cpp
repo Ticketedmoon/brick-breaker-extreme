@@ -9,6 +9,7 @@ Ball::Ball() = default;
 Ball::Ball(float radius, float x, float y, void (*destroyBrick)(int)) {
     this->x = x;
     this->y = y;
+    this->radius = radius;
     this->ball = sf::CircleShape(radius);
     this->ball.setOutlineColor(sf::Color::Black);
     this->ball.setOutlineThickness(2.0);
@@ -73,11 +74,18 @@ void Ball::checkForBrickTouch(std::vector<Brick>& bricks) {
 }
 
 void Ball::checkForPaddleTouch(Paddle& paddle) {
-    float tolerance = 35.0;
     bool isTouchingPaddleX = (
             (paddle.getRectangleShapeForPaddle().getPosition().x <= x) &&
-            (paddle.getRectangleShapeForPaddle().getPosition().x + paddle.getX()) >= x);
-    bool isTouchingPaddleY = (paddle.getRectangleShapeForPaddle().getPosition().y - y) <= tolerance;
+            (paddle.getRectangleShapeForPaddle().getPosition().x + paddle.getWidth()) >= x);
+
+    int paddleY = paddle.getRectangleShapeForPaddle().getPosition().y;
+
+    // Offset is to account for the y position pointing to the top-left of the shape.
+    // We need this to be the bottom so we hit the paddle correctly.
+    // So add the radius * 2 for the diameter.
+    int ballYPlusOffset = (this->y + this->radius * 2);
+    
+    bool isTouchingPaddleY = (paddleY - ballYPlusOffset) <= 0;
     if (isTouchingPaddleY && isTouchingPaddleX)
     {
         updateVelocityX();
