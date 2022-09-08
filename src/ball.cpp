@@ -45,11 +45,14 @@ bool Ball::checkForWindowBorderCollision(sf::Vector2i resolution)
     bool isTouchTopBorder = (this->y <= 0);
     if (isTouchingLeftOrRightBorder) 
     {
-        updateVelocityX();
+        updateVelocityX(-velocityX);
+        int newDirection = -getDirection();
+        // TODO Investigate me
+        this->setDirection(newDirection);
     } 
     if (isTouchTopBorder)
     {
-        updateVelocityY();
+        updateVelocityY(-velocityY);
     }
     return true;
 }
@@ -66,7 +69,7 @@ void Ball::checkForBrickTouch(std::vector<Brick>& bricks) {
         if (isTouchingBrickY && isTouchingBrickX)
         {
         	//updateVelocityX();
-        	updateVelocityY();
+        	updateVelocityY(-velocityY);
             std::cout << "brick ID: " << i << std::endl;
 			(*destroyBrick)(i);
         }
@@ -75,8 +78,8 @@ void Ball::checkForBrickTouch(std::vector<Brick>& bricks) {
 
 void Ball::checkForPaddleTouch(Paddle& paddle) {
     bool isTouchingPaddleX = (
-            (paddle.getRectangleShapeForPaddle().getPosition().x <= x) &&
-            (paddle.getRectangleShapeForPaddle().getPosition().x + paddle.getWidth()) >= x);
+        (paddle.getRectangleShapeForPaddle().getPosition().x <= x) &&
+        (paddle.getRectangleShapeForPaddle().getPosition().x + paddle.getWidth()) >= x);
 
     int paddleY = paddle.getRectangleShapeForPaddle().getPosition().y;
 
@@ -84,12 +87,29 @@ void Ball::checkForPaddleTouch(Paddle& paddle) {
     // We need this to be the bottom so we hit the paddle correctly.
     // So add the radius * 2 for the diameter.
     int ballYPlusOffset = (this->y + this->radius * 2);
-    
+
     bool isTouchingPaddleY = (paddleY - ballYPlusOffset) <= 0;
     if (isTouchingPaddleY && isTouchingPaddleX)
     {
-        updateVelocityX();
-        updateVelocityY();
+        bool touchRight = (x >= paddle.getRectangleShapeForPaddle().getPosition().x + paddle.getWidth() / 2)
+            && (x <= paddle.getRectangleShapeForPaddle().getPosition().x + paddle.getWidth());
+        bool isMovingRight = getDirection() == 1;
+
+        if (touchRight) {
+            float newVelocity = ((isMovingRight ? velocityY : velocityX) * getDirection()) - 0.2; 
+            if (isMovingRight) {
+                updateVelocityY(newVelocity);
+            } else {
+                updateVelocityX(newVelocity);
+            }
+        } else {
+            float newVelocity = (isMovingRight ? velocityY / 2 : velocityX / 5) * getDirection(); 
+            if (isMovingRight) {
+                updateVelocityX(newVelocity);
+            } else {
+                updateVelocityY(newVelocity);
+            }
+        }
     }
 }
 
@@ -97,12 +117,12 @@ sf::CircleShape Ball::getCircleShapeForBall() {
     return this->ball;
 }
 
-void Ball::updateVelocityX() {
-    this->velocityX = -this->velocityX;
+void Ball::updateVelocityX(float velocity) {
+    this->velocityX = velocity;
 }
 
-void Ball::updateVelocityY() {
-    this->velocityY = -this->velocityY;
+void Ball::updateVelocityY(float velocity) {
+    this->velocityY = velocity;
 }
 
 float Ball::getX() {
@@ -111,4 +131,12 @@ float Ball::getX() {
 
 float Ball::getY() {
     return this->y;
+}
+
+bool Ball::getDirection() {
+    return this->direction;
+}
+
+void Ball::setDirection(int direction) {
+    this->direction = direction;
 }
