@@ -24,8 +24,9 @@ The command to compile the source code, specify the headers and link to external
 `g++ -std=c++17 ./src/*.cpp -o brick-breaker-extreme.exe -I./include -lsfml-graphics -lsfml-window -lsfml-system`
 
 Alternatively, you can use `cmake` by:  
+0. Install the latest stable release of cmake at: https://cmake.org/download/
 1. cloning the SFML lib at https://github.com/SFML/SFML.  
-2. creating a `build/` directory, `cd` into it and run `cmake ..`.
+2. create a `build/` directory, `cd` into it and run `cmake ..`.
 3. You may be required to resolve some installation errors, you can do by installing
    the appropriate necessary libs. Use `apt-cache search` for that.
 4. Once resolved, run `cmake ..` again - SFML should install successfully.
