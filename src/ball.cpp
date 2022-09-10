@@ -15,6 +15,10 @@ Ball::Ball(float radius, float x, float y, void (*destroyBrick)(int)) {
     this->ball.setOutlineThickness(2.0);
     this->ball.setPosition(x, y);
 	this->destroyBrick = destroyBrick;
+    
+    sf::SoundBuffer buffer = AudioManager::loadSfxFromFileIntoBuffer("./assets/sfx/water-droplet-sfx.ogg");
+    std::cout << buffer.getSampleCount() << std::endl;
+    this->ballBrickTouchSoundBuffer = buffer;
 }
 
 bool Ball::play(Paddle paddle, std::vector<Brick>& bricks, sf::Vector2i resolution) 
@@ -67,8 +71,9 @@ void Ball::checkForBrickTouch(std::vector<Brick>& bricks) {
         bool isTouchingBrickY = (y - brick.getRectangleShapeForBrick().getPosition().y) <= tolerance;
         if (isTouchingBrickY && isTouchingBrickX)
         {
-        	//updateVelocityX();
         	updateVelocityY(-velocityY);
+            this->ballBrickTouchSound.setBuffer(ballBrickTouchSoundBuffer);
+            this->ballBrickTouchSound.play();
             std::cout << "brick ID: " << i << std::endl;
 			(*destroyBrick)(i);
         }

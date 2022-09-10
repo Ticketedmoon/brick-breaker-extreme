@@ -120,7 +120,7 @@ void Engine::destroyBrick(int brickIndex)
 }
 
 Paddle Engine::createPaddle() {
-    const float paddleWidth = 500.f;
+    const float paddleWidth = 200.f;
     const float paddleHeight = 10.f;
     float paddleXPosition = (window.getSize().x / 2.f) - (paddleWidth / 2.f);
     float paddleYPosition = window.getSize().y - 100.f;

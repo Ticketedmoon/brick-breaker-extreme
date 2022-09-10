@@ -6,7 +6,7 @@ class Paddle {
 
 private:
     sf::RectangleShape rectangle;
-    float velocity = 10.0;
+    float velocity = 15.0;
     float x;
     float y;
     float width;

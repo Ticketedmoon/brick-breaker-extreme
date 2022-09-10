@@ -8,9 +8,11 @@ class Engine {
 
 private:
     const unsigned int FPS = 60;
+
+    bool isPlaying = true;
+
     sf::Vector2i resolution;
     sf::RenderWindow window;
-    bool isPlaying = true;
     sf::Font font;
 
     Paddle createPaddle();

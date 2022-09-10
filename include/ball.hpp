@@ -3,6 +3,8 @@
 #include <SFML/Graphics/CircleShape.hpp>
 #include "brick.hpp"
 #include "paddle.hpp"
+#include <SFML/Audio.hpp>
+#include "audio_manager.hpp"
 
 class Ball {
 
@@ -15,6 +17,9 @@ private:
     int direction = 1;
 
     sf::CircleShape ball;
+
+    sf::SoundBuffer ballBrickTouchSoundBuffer; 
+    sf::Sound ballBrickTouchSound; 
 
     void updateVelocityX(float velocity);
     void updateVelocityY(float velocity);
