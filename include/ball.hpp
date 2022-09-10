@@ -31,6 +31,6 @@ public:
     float getY();
     sf::CircleShape getCircleShapeForBall();
     bool play(Paddle paddle, std::vector<Brick>& bricks, sf::Vector2i resoution);
-    bool getDirection();
+    int getDirection();
     void setDirection(int direction);
 };

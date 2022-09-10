@@ -46,8 +46,7 @@ bool Ball::checkForWindowBorderCollision(sf::Vector2i resolution)
     if (isTouchingLeftOrRightBorder) 
     {
         updateVelocityX(-velocityX);
-        int newDirection = -getDirection();
-        // TODO Investigate me
+        int newDirection = this->getDirection() * -1;
         this->setDirection(newDirection);
     } 
     if (isTouchTopBorder)
@@ -96,20 +95,19 @@ void Ball::checkForPaddleTouch(Paddle& paddle) {
         bool isMovingRight = getDirection() == 1;
 
         if (touchRight) {
-            float newVelocity = ((isMovingRight ? velocityY : velocityX) * getDirection()) - 0.2; 
             if (isMovingRight) {
-                updateVelocityY(newVelocity);
+                updateVelocityX(velocityX - 3);
             } else {
-                updateVelocityX(newVelocity);
+                updateVelocityX(velocityX + 3);
             }
         } else {
-            float newVelocity = (isMovingRight ? velocityY / 2 : velocityX / 5) * getDirection(); 
             if (isMovingRight) {
-                updateVelocityX(newVelocity);
+                 updateVelocityX(velocityX + 3);
             } else {
-                updateVelocityY(newVelocity);
+                updateVelocityX(velocityX - 3);
             }
         }
+        updateVelocityY(velocityY * -1);
     }
 }
 
@@ -133,10 +131,10 @@ float Ball::getY() {
     return this->y;
 }
 
-bool Ball::getDirection() {
+int Ball::getDirection() {
     return this->direction;
 }
 
-void Ball::setDirection(int direction) {
-    this->direction = direction;
+void Ball::setDirection(int newDirection) {
+    this->direction = newDirection;
 }
