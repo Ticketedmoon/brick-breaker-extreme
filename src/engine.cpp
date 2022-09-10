@@ -1,8 +1,9 @@
+#include <iostream>
+#include <stdlib.h>
 #include "engine.hpp"
 #include "brick.hpp"
 #include "constants.hpp"
-#include <iostream>
-#include <stdlib.h>
+#include "utils.hpp"
 
 Ball ball;
 Paddle paddle;
@@ -49,9 +50,9 @@ Engine::Engine()
 		{
 			int xPos = j * BRICK_WIDTH;
 			int yPos = 20 + (i * BRICK_HEIGHT);
-			int r = rand() % 255; 
-			int g = rand() % 255;
-			int b = rand() % 255;
+			int r = Utils::randomNumber(0, 255);
+			int g = Utils::randomNumber(0, 255);
+			int b = Utils::randomNumber(0, 255);
  			sf::Color color = sf::Color(r, g, b);
 			int brickIndex = (i * TOTAL_BRICKS_PER_ROW) + j;
 			bricks[brickIndex] = Brick(BRICK_WIDTH, BRICK_HEIGHT, xPos, yPos, color);
