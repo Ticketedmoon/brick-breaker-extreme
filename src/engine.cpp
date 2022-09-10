@@ -1,12 +1,12 @@
 #include <iostream>
 #include <stdlib.h>
 #include "engine.hpp"
-#include "brick.hpp"
-#include "constants.hpp"
-#include "utils.hpp"
 
+GameState gameState = GameState::PLAYING;
 Ball ball;
 Paddle paddle;
+
+const int TOTAL_BRICKS = 32;
 
 std::vector<Brick> bricks(32, Brick());
 
@@ -36,28 +36,13 @@ Engine::Engine()
     }
 
     // Create paddle
-    paddle = Engine::createPaddle();
+    paddle = createPaddle();
 
     // Create ball
-    ball = Engine::createBall();
+    ball = createBall();
 
     // Create bricks
-    // TODO: Convert me into private method.
-	std::cout << "Creating bricks\n";
-	for (int i = 0; i < TOTAL_BRICK_ROWS; i++) 
-	{
-		for (int j = 0; j < TOTAL_BRICKS_PER_ROW; j++)
-		{
-			int xPos = j * BRICK_WIDTH;
-			int yPos = 20 + (i * BRICK_HEIGHT);
-			int r = Utils::randomNumber(0, 255);
-			int g = Utils::randomNumber(0, 255);
-			int b = Utils::randomNumber(0, 255);
- 			sf::Color color = sf::Color(r, g, b);
-			int brickIndex = (i * TOTAL_BRICKS_PER_ROW) + j;
-			bricks[brickIndex] = Brick(BRICK_WIDTH, BRICK_HEIGHT, xPos, yPos, color);
-		}
-	}	
+    bricks = createBricks();
 }
 
 // Note: Run until window is closed
@@ -88,36 +73,70 @@ void Engine::run()
 
 void Engine::draw() 
 {
-    this->window.clear(sf::Color::Blue);
-    if (isPlaying) {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) 
-        {
-            paddle.moveLeft();
-        }
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) 
-        {
-            paddle.moveRight();
-        }
-
-        this->window.draw(paddle.getRectangleShapeForPaddle());
-        this->window.draw(ball.getCircleShapeForBall());
-        for (int i = 0; i < bricks.size(); i++)
-        {
-            this->window.draw(bricks[i].getRectangleShapeForBrick());
-        }
-        this->isPlaying = ball.play(paddle, bricks, resolution);
-    } else {
-        this->showGameOverView();
-    }
-    this->window.display();
+    onUpdate();
+    onRender();
+    onKeyboardEvent();
 }
 
-void Engine::destroyBrick(int brickIndex)
-{
-	std::vector<Brick>::iterator brickIndexToRemove = bricks.begin() + brickIndex;
-	bricks.erase(brickIndexToRemove);
-	std::cout << "bricks size: " << bricks.size() << '\n';
+void Engine::onUpdate() {
+    if (gameState == GameState::PLAYING) {
+        if (bricks.size() == 0) 
+        {
+            gameState = GameState::VICTORY;
+        }
+        else {
+            gameState = ball.play(paddle, bricks);
+        }
+    }
+}
+
+void Engine::onRender() {
+    if (gameState == GameState::VICTORY)
+    {
+        showViewOnGameStateChange("Victorious!\nPress [SPACE] to restart", sf::Color::Green, sf::Color::White);
+    }
+    else if (gameState == GameState::GAMEOVER)
+    {
+        showViewOnGameStateChange("Game Over!\nPress [SPACE] to restart", sf::Color::Red, sf::Color::White);
+    }
+    else 
+    {
+        window.clear(sf::Color::Blue);
+        window.draw(paddle.getRectangleShapeForPaddle());
+        window.draw(ball.getCircleShapeForBall());
+        for (int i = 0; i < bricks.size(); i++)
+        {
+            window.draw(bricks[i].getRectangleShapeForBrick());
+        }
+    }
+    window.display();
+}
+
+void Engine::onKeyboardEvent() {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) 
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) 
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) 
+    {
+        paddle.moveLeft();
+    }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) 
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) 
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) 
+    {
+        paddle.moveRight();
+    }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) 
+    {
+        if (gameState != GameState::PLAYING)
+        {
+            gameState = GameState::PLAYING;
+            ball = createBall();
+            paddle = createPaddle();
+            bricks = createBricks();
+        }
+    }
 }
 
 Paddle Engine::createPaddle() {
@@ -135,22 +154,41 @@ Ball Engine::createBall() {
     return Ball(ballRadius, ballStartX, ballStartY, destroyBrick);
 }
 
-void Engine::showGameOverView() {
-    sf::Text text = sf::Text("Game Over!\nPress [SPACE] to restart", font);
-    // set the character size
-    text.setCharacterSize(128); // in pixels, not points!
-    // set the color
-    text.setFillColor(sf::Color::Red);
-    // set the text style
-    text.setStyle(sf::Text::Bold | sf::Text::Underlined);
-    sf::FloatRect bounds = text.getLocalBounds();
-    text.setPosition(constants::WINDOW_WIDTH/2 - bounds.width/2, 225);
-    // inside the main loop, between window.clear() and window.display()
-    window.draw(text);
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) 
-    {
-        this->isPlaying = true;
-        ball = createBall();
-        paddle = createPaddle();
+
+std::vector<Brick> Engine::createBricks() 
+{
+    std::vector<Brick> newBricks(TOTAL_BRICKS, Brick());
+	for (int i = 0; i < TOTAL_BRICK_ROWS; i++) 
+	{
+		for (int j = 0; j < TOTAL_BRICKS_PER_ROW; j++)
+		{
+			int xPos = j * BRICK_WIDTH;
+			int yPos = 20 + (i * BRICK_HEIGHT);
+			int r = Utils::randomNumber(0, 255);
+			int g = Utils::randomNumber(0, 255);
+			int b = Utils::randomNumber(0, 255);
+ 			sf::Color color = sf::Color(r, g, b);
+			int brickIndex = (i * TOTAL_BRICKS_PER_ROW) + j;
+			newBricks[brickIndex] = Brick(BRICK_WIDTH, BRICK_HEIGHT, xPos, yPos, color);
+		}
     }
+    return newBricks;
+}
+
+void Engine::destroyBrick(int brickIndex)
+{
+	std::vector<Brick>::iterator brickIndexToRemove = bricks.begin() + brickIndex;
+	bricks.erase(brickIndexToRemove);
+	std::cout << "bricks size: " << bricks.size() << '\n';
+}
+
+void Engine::showViewOnGameStateChange(std::string text, sf::Color backgroundColor, sf::Color textColour) {
+    sf::Text sf_text = sf::Text(text, font);
+    window.clear(backgroundColor);
+    sf_text.setFillColor(textColour);
+    sf_text.setCharacterSize(128); // in pixels, not points!
+    sf_text.setStyle(sf::Text::Bold | sf::Text::Underlined);
+    sf::FloatRect bounds = sf_text.getLocalBounds();
+    sf_text.setPosition(constants::WINDOW_WIDTH/2 - bounds.width/2, 225);
+    window.draw(sf_text);
 }

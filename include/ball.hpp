@@ -1,10 +1,13 @@
 #pragma once
 
 #include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Audio.hpp>
+
 #include "game_object.hpp"
 #include "brick.hpp"
 #include "paddle.hpp"
-#include <SFML/Audio.hpp>
+#include "constants.hpp"
+#include "game_object.hpp"
 #include "audio_manager.hpp"
 
 class Ball : public GameObject {
@@ -22,7 +25,7 @@ private:
 
     void updateVelocityX(float velocity);
     void updateVelocityY(float velocity);
-    bool checkForWindowBorderCollision(sf::Vector2i resolution);
+    GameState checkForWindowBorderCollision();
     void checkForPaddleTouch(Paddle& paddle);
     void checkForBrickTouch(std::vector<Brick>& bricks);
 	void (*destroyBrick)(int);
@@ -32,7 +35,7 @@ public:
     Ball(float radius, float x, float y, void (*destroyBrick)(int));
 
     sf::CircleShape getCircleShapeForBall();
-    bool play(Paddle paddle, std::vector<Brick>& bricks, sf::Vector2i resoution);
+    GameState play(Paddle paddle, std::vector<Brick>& bricks);
     int getDirection();
     void setDirection(int direction);
 };

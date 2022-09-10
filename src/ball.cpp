@@ -1,7 +1,5 @@
 #include <iostream>
 #include "ball.hpp"
-#include "constants.hpp"
-#include "game_object.hpp"
 
 const int WINDOW_STANDARD_OFFSET_FOR_BALL_COLLISION = 20; 
 
@@ -18,35 +16,34 @@ Ball::Ball(float radius, float x, float y, void (*destroyBrick)(int)) {
 	this->destroyBrick = destroyBrick;
     
     sf::SoundBuffer buffer = AudioManager::loadSfxFromFileIntoBuffer("./assets/sfx/water-droplet-sfx.ogg");
-    std::cout << buffer.getSampleCount() << std::endl;
     this->ballBrickTouchSoundBuffer = buffer;
 }
 
-bool Ball::play(Paddle paddle, std::vector<Brick>& bricks, sf::Vector2i resolution) 
+GameState Ball::play(Paddle paddle, std::vector<Brick>& bricks) 
 {
     checkForPaddleTouch(paddle);
     checkForBrickTouch(bricks);
 
     // Window touch check
-    bool isBallInFlight = checkForWindowBorderCollision(resolution);
+    GameState currentGameState = checkForWindowBorderCollision();
 
     this->x += velocityX;
     this->y -= velocityY;
 
     this->ball.setPosition(this->x, this->y);
-    return isBallInFlight;
+    return currentGameState;
 }
 
-bool Ball::checkForWindowBorderCollision(sf::Vector2i resolution) 
+GameState Ball::checkForWindowBorderCollision()
 {
     
-    bool isTouchingDeathZoneBottomBorder = this->y >= resolution.y - WINDOW_STANDARD_OFFSET_FOR_BALL_COLLISION;
+    bool isTouchingDeathZoneBottomBorder = this->y >= constants::WINDOW_HEIGHT - WINDOW_STANDARD_OFFSET_FOR_BALL_COLLISION;
     if (isTouchingDeathZoneBottomBorder) 
     {
-        return false;
+        return GameState::GAMEOVER;
     }
 
-    bool isTouchingLeftOrRightBorder = this->x <= -WINDOW_STANDARD_OFFSET_FOR_BALL_COLLISION || this->x >= resolution.x;
+    bool isTouchingLeftOrRightBorder = this->x <= -WINDOW_STANDARD_OFFSET_FOR_BALL_COLLISION || this->x >= constants::WINDOW_WIDTH;
     bool isTouchTopBorder = (this->y <= 0);
     if (isTouchingLeftOrRightBorder) 
     {
@@ -58,7 +55,7 @@ bool Ball::checkForWindowBorderCollision(sf::Vector2i resolution)
     {
         updateVelocityY(-velocityY);
     }
-    return true;
+    return GameState::PLAYING;
 }
 
 void Ball::checkForBrickTouch(std::vector<Brick>& bricks) {

@@ -3,21 +3,28 @@
 #include <SFML/Graphics.hpp>
 #include "paddle.hpp"
 #include "ball.hpp"
+#include "brick.hpp"
+#include "constants.hpp"
+#include "utils.hpp"
 
-class Engine {
-
+class Engine
+{
 private:
     const unsigned int FPS = 60;
-
-    bool isPlaying = true;
+    GameState gameState = GameState::PLAYING;
 
     sf::Vector2i resolution;
     sf::RenderWindow window;
     sf::Font font;
 
+    void onUpdate();
+    void onRender();
+    void onKeyboardEvent();
+
     Paddle createPaddle();
     Ball createBall();
-    void showGameOverView();
+    std::vector<Brick> createBricks();
+    void showViewOnGameStateChange(std::string text, sf::Color backgroundColor, sf::Color textColor);
 
 public:
     Engine();
