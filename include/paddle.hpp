@@ -1,14 +1,13 @@
 #pragma once
 
+#include "game_object.hpp"
 #include <SFML/Graphics/RectangleShape.hpp>
 
-class Paddle {
+class Paddle : public GameObject {
 
 private:
     sf::RectangleShape rectangle;
     float velocity = 15.0;
-    float x;
-    float y;
     float width;
     float height;
 
@@ -18,6 +17,5 @@ public:
     sf::RectangleShape getRectangleShapeForPaddle();
     void moveLeft();
     void moveRight();
-    float getX();
     float getWidth();
 };

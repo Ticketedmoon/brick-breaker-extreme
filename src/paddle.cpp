@@ -26,10 +26,6 @@ void Paddle::moveRight() {
     this->rectangle.setPosition(x, this->y);
 }
 
-float Paddle::getX() {
-    return this->x;
-}
-
 float Paddle::getWidth() {
     return this->width;
 }

@@ -1,6 +1,7 @@
 #include <iostream>
 #include "ball.hpp"
 #include "constants.hpp"
+#include "game_object.hpp"
 
 const int WINDOW_STANDARD_OFFSET_FOR_BALL_COLLISION = 20; 
 
@@ -90,7 +91,7 @@ void Ball::checkForPaddleTouch(Paddle& paddle) {
     // Offset is to account for the y position pointing to the top-left of the shape.
     // We need this to be the bottom so we hit the paddle correctly.
     // So add the radius * 2 for the diameter.
-    int ballYPlusOffset = (this->y + this->radius * 2);
+    int ballYPlusOffset = (this->getY() + this->radius * 2);
 
     bool isTouchingPaddleY = (paddleY - ballYPlusOffset) <= 0;
     if (isTouchingPaddleY && isTouchingPaddleX)
@@ -126,14 +127,6 @@ void Ball::updateVelocityX(float velocity) {
 
 void Ball::updateVelocityY(float velocity) {
     this->velocityY = velocity;
-}
-
-float Ball::getX() {
-    return this->x;
-}
-
-float Ball::getY() {
-    return this->y;
 }
 
 int Ball::getDirection() {

@@ -14,10 +14,6 @@ sf::RectangleShape Brick::getRectangleShapeForBrick() {
     return this->rectangle;
 }
 
-float Brick::getX() {
-    return this->x;
-}
-
 float Brick::getWidth() {
     return this->width;
 }

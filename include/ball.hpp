@@ -1,16 +1,15 @@
 #pragma once
 
 #include <SFML/Graphics/CircleShape.hpp>
+#include "game_object.hpp"
 #include "brick.hpp"
 #include "paddle.hpp"
 #include <SFML/Audio.hpp>
 #include "audio_manager.hpp"
 
-class Ball {
+class Ball : public GameObject {
 
 private:
-    float x;
-    float y;
     float radius;
     float velocityX = 10.0;
     float velocityY = 7.5;
@@ -32,8 +31,6 @@ public:
     Ball();
     Ball(float radius, float x, float y, void (*destroyBrick)(int));
 
-    float getX();
-    float getY();
     sf::CircleShape getCircleShapeForBall();
     bool play(Paddle paddle, std::vector<Brick>& bricks, sf::Vector2i resoution);
     int getDirection();

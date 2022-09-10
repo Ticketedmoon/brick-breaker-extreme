@@ -1,3 +1,5 @@
+#pragma once
+
 namespace constants 
 {
 	inline const int WINDOW_WIDTH = 1280;
