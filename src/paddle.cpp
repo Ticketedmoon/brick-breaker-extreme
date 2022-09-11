@@ -11,7 +11,7 @@ Paddle::Paddle(float width, float height, float x, float y)
     this->height = height;
     this->rectangle = sf::RectangleShape(sf::Vector2f(width, height));
     this->rectangle.setOutlineColor(sf::Color::Black);
-    this->rectangle.setOutlineThickness(3.0f);
+    this->rectangle.setOutlineThickness(PADDLE_OUTLINE_THICKNESS);
     this->rectangle.setPosition(x, y);
 }
 
@@ -22,14 +22,21 @@ sf::RectangleShape Paddle::getRectangleShapeForPaddle()
 
 void Paddle::moveLeft() 
 {
-    x -= velocity;
-    this->rectangle.setPosition(x, this->y);
+    if (x >= PADDLE_OUTLINE_THICKNESS) // Account for the border outline
+    {
+        x -= velocity;
+        this->rectangle.setPosition(x, this->y);
+    }
 }
 
 void Paddle::moveRight() 
 {
-    x += velocity;
-    this->rectangle.setPosition(x, this->y);
+
+    if (x <= (constants::WINDOW_WIDTH-width-PADDLE_OUTLINE_THICKNESS))
+    {
+        x += velocity;
+        this->rectangle.setPosition(x, this->y);
+    }
 }
 
 float Paddle::getWidth() 

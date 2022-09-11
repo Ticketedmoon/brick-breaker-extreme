@@ -179,14 +179,14 @@ void Engine::createBricks()
 
 void Engine::checkForWindowBorderCollision()
 {
-    
     bool isTouchingDeathZoneBottomBorder = ball.getY() >= constants::WINDOW_HEIGHT - WINDOW_STANDARD_OFFSET_FOR_BALL_COLLISION;
     if (isTouchingDeathZoneBottomBorder) 
     {
         gameState = GameState::GAMEOVER;
     }
 
-    bool isTouchingLeftOrRightBorder = ball.getX() <= -WINDOW_STANDARD_OFFSET_FOR_BALL_COLLISION || ball.getX() >= constants::WINDOW_WIDTH;
+    bool isTouchingLeftOrRightBorder = ball.getX() <= 0 
+        || ball.getX() >= constants::WINDOW_WIDTH-WINDOW_STANDARD_OFFSET_FOR_BALL_COLLISION;
     bool isTouchTopBorder = (ball.getY() <= 0);
     if (isTouchingLeftOrRightBorder) 
     {
