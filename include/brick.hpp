@@ -1,7 +1,8 @@
 #pragma once
 
-#include "game_object.hpp"
 #include <SFML/Graphics/RectangleShape.hpp>
+
+#include "game_object.hpp"
 
 class Brick : public GameObject 
 {

@@ -1,11 +1,14 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include <stdlib.h>
+
 #include "paddle.hpp"
 #include "ball.hpp"
 #include "brick.hpp"
-#include "constants.hpp"
 #include "utils.hpp"
+#include "collision_manager.hpp"
 
 class Engine
 {
@@ -24,15 +27,10 @@ private:
     Paddle createPaddle();
     Ball createBall();
     void createBricks();
-
-    void checkForWindowBorderCollision();
-    void checkForPaddleTouch();
-    void checkForBrickTouch();
     void showViewOnGameStateChange(std::string text, sf::Color backgroundColor, sf::Color textColor);
 
 public:
     Engine();
     void draw();
     void run();
-    static void destroyBrick(int brickIndex); // TODO: This probably should be in a different class (We should think about moving the bricks vector out of Engine.
 };

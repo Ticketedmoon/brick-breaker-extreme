@@ -1,8 +1,9 @@
 #pragma once
 
+#include <SFML/Graphics/RectangleShape.hpp>
+
 #include "game_object.hpp"
 #include "constants.hpp"
-#include <SFML/Graphics/RectangleShape.hpp>
 
 const float PADDLE_OUTLINE_THICKNESS = 3.0f;
 
