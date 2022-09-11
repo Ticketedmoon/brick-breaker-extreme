@@ -160,6 +160,7 @@ Ball Engine::createBall()
 
 void Engine::createBricks() 
 {
+    bricks.clear();
     bricks.reserve(TOTAL_BRICKS);
 	for (int i = 0; i < TOTAL_BRICK_ROWS; i++) 
 	{

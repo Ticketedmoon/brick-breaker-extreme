@@ -7,6 +7,8 @@ Brick::Brick(float width, float height, float x, float y, sf::Color colour)
     this->colour = colour;
     this->rectangle = sf::RectangleShape(sf::Vector2f(width, height));
     this->rectangle.setFillColor(colour);
+    this->rectangle.setOutlineColor(sf::Color::White);
+    this->rectangle.setOutlineThickness(1.0f);
     this->rectangle.setPosition(x, y);
 }
 

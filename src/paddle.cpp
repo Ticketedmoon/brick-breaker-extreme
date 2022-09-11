@@ -10,6 +10,8 @@ Paddle::Paddle(float width, float height, float x, float y)
     this->width = width;
     this->height = height;
     this->rectangle = sf::RectangleShape(sf::Vector2f(width, height));
+    this->rectangle.setOutlineColor(sf::Color::Black);
+    this->rectangle.setOutlineThickness(3.0f);
     this->rectangle.setPosition(x, y);
 }
 
