@@ -1,5 +1,7 @@
 #include "engine.hpp"
 
+using namespace constants;
+
 GameState gameState = GameState::PLAYING;
 Ball ball;
 Paddle paddle;
@@ -9,18 +11,18 @@ std::vector<Brick> bricks;
 const int BRICK_WIDTH = 160;
 const int BRICK_HEIGHT = 40;
 const int TOTAL_BRICKS = 32;
-const int TOTAL_BRICKS_PER_ROW = constants::WINDOW_WIDTH / BRICK_WIDTH;
+const int TOTAL_BRICKS_PER_ROW = WINDOW_WIDTH / BRICK_WIDTH;
 const int TOTAL_BRICK_ROWS = TOTAL_BRICKS < TOTAL_BRICKS_PER_ROW ? TOTAL_BRICKS : TOTAL_BRICKS / TOTAL_BRICKS_PER_ROW;
 
 Engine::Engine() 
 {
     // Window
-    resolution = sf::Vector2i(constants::WINDOW_WIDTH, constants::WINDOW_HEIGHT);
+    resolution = sf::Vector2i(WINDOW_WIDTH, WINDOW_HEIGHT);
     window.create(sf::VideoMode(resolution.x, resolution.y), "Brick Breaker Extreme", sf::Style::Titlebar);
 
 	auto desktop = sf::VideoMode::getDesktopMode();
     
-	window.setPosition(sf::Vector2i(desktop.width/2 - constants::X_SCREEN_LOCATION_OFFSET, desktop.height/2 - constants::Y_SCREEN_LOCATION_OFFSET));
+	window.setPosition(sf::Vector2i(desktop.width/2 - X_SCREEN_LOCATION_OFFSET, desktop.height/2 - Y_SCREEN_LOCATION_OFFSET));
     window.setVerticalSyncEnabled(true);
     window.setFramerateLimit(FPS);
 
@@ -182,6 +184,6 @@ void Engine::showViewOnGameStateChange(std::string text, sf::Color backgroundCol
     sf_text.setCharacterSize(128); // in pixels, not points!
     sf_text.setStyle(sf::Text::Bold | sf::Text::Underlined);
     sf::FloatRect bounds = sf_text.getLocalBounds();
-    sf_text.setPosition(constants::WINDOW_WIDTH/2 - bounds.width/2, 225);
+    sf_text.setPosition(WINDOW_WIDTH/2 - bounds.width/2, 225);
     window.draw(sf_text);
 }
