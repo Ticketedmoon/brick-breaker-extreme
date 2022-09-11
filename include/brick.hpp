@@ -7,8 +7,6 @@ class Brick : public GameObject {
 private:
     sf::Color colour;
     sf::RectangleShape rectangle;
-    float width;
-    float height;
 
 public:
     Brick();

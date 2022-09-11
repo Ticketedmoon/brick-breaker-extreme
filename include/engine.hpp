@@ -24,6 +24,10 @@ private:
     Paddle createPaddle();
     Ball createBall();
     std::vector<Brick> createBricks();
+
+    void checkForWindowBorderCollision();
+    void checkForPaddleTouch();
+    void checkForBrickTouch();
     void showViewOnGameStateChange(std::string text, sf::Color backgroundColor, sf::Color textColor);
 
 public:

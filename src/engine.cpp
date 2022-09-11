@@ -11,6 +11,7 @@ std::vector<Brick> bricks;
 const int BRICK_WIDTH = 160;
 const int BRICK_HEIGHT = 40;
 const int TOTAL_BRICKS = 32;
+const int WINDOW_STANDARD_OFFSET_FOR_BALL_COLLISION = 20; 
 const int TOTAL_BRICKS_PER_ROW = constants::WINDOW_WIDTH / BRICK_WIDTH;
 const int TOTAL_BRICK_ROWS = TOTAL_BRICKS < TOTAL_BRICKS_PER_ROW ? TOTAL_BRICKS : TOTAL_BRICKS / TOTAL_BRICKS_PER_ROW;
 
@@ -86,9 +87,9 @@ void Engine::onUpdate() {
         }
         else {
             ball.startMovement();
-            ball.checkForPaddleTouch(paddle);
-            ball.checkForBrickTouch(bricks);
-            GameState currentGameState = ball.checkForWindowBorderCollision();
+            checkForPaddleTouch();
+            checkForBrickTouch();
+            checkForWindowBorderCollision();
         }
     }
 }
@@ -150,7 +151,7 @@ Ball Engine::createBall() {
     const float ballRadius = 20.f;
     float ballStartX = (window.getSize().x / 2.f) - ballRadius;
     float ballStartY = (window.getSize().y / 2.f) - ballRadius;
-    return Ball(ballRadius, ballStartX, ballStartY, destroyBrick);
+    return Ball(ballRadius, ballStartX, ballStartY);
 }
 
 std::vector<Brick> Engine::createBricks() 
@@ -172,6 +173,84 @@ std::vector<Brick> Engine::createBricks()
 		}
     }
     return newBricks;
+}
+
+void Engine::checkForWindowBorderCollision()
+{
+    
+    bool isTouchingDeathZoneBottomBorder = ball.getY() >= constants::WINDOW_HEIGHT - WINDOW_STANDARD_OFFSET_FOR_BALL_COLLISION;
+    if (isTouchingDeathZoneBottomBorder) 
+    {
+        gameState = GameState::GAMEOVER;
+    }
+
+    bool isTouchingLeftOrRightBorder = ball.getX() <= -WINDOW_STANDARD_OFFSET_FOR_BALL_COLLISION || ball.getX() >= constants::WINDOW_WIDTH;
+    bool isTouchTopBorder = (ball.getY() <= 0);
+    if (isTouchingLeftOrRightBorder) 
+    {
+        ball.setVelocityX(-ball.getVelocityX());
+        int newDirection = ball.getDirection() * -1;
+        ball.setDirection(newDirection);
+    } 
+    if (isTouchTopBorder)
+    {
+        ball.setVelocityY(-ball.getVelocityY());
+    }
+}
+
+void Engine::checkForBrickTouch() {
+    for (int i = 0; i < bricks.size(); i++)
+    {
+        Brick brick = bricks[i];
+        float tolerance = 10.0;
+		bool isBallAfterBrickStartX = brick.getRectangleShapeForBrick().getPosition().x <= (ball.getX()+ball.getRadius());
+		bool isBallBeforeBrickEndX = (brick.getRectangleShapeForBrick().getPosition().x + brick.getWidth()) >= ball.getX();
+        bool isTouchingBrickX = isBallAfterBrickStartX && isBallBeforeBrickEndX;
+        bool isTouchingBrickY = (ball.getY() - brick.getRectangleShapeForBrick().getPosition().y) <= tolerance;
+        if (isTouchingBrickY && isTouchingBrickX)
+        {
+        	ball.setVelocityY(-ball.getVelocityY());
+            ball.playBrickDestroySound();
+            destroyBrick(i);
+            std::cout << "brick ID: " << i << std::endl;
+        }
+    }
+}
+
+void Engine::checkForPaddleTouch() {
+    bool isTouchingPaddleX = (
+        (paddle.getRectangleShapeForPaddle().getPosition().x <= ball.getX()) &&
+        (paddle.getRectangleShapeForPaddle().getPosition().x + paddle.getWidth()) >= ball.getX());
+
+    int paddleY = paddle.getRectangleShapeForPaddle().getPosition().y;
+
+    // Offset is to account for the y position pointing to the top-left of the shape.
+    // We need this to be the bottom so we hit the paddle correctly.
+    // So add the radius * 2 for the diameter.
+    int ballYPlusOffset = (ball.getY() + ball.getRadius() * 2);
+
+    bool isTouchingPaddleY = (paddleY - ballYPlusOffset) <= 0;
+    if (isTouchingPaddleY && isTouchingPaddleX)
+    {
+        bool touchRight = (ball.getX() >= paddle.getRectangleShapeForPaddle().getPosition().x + paddle.getWidth() / 2)
+            && (ball.getX() <= paddle.getRectangleShapeForPaddle().getPosition().x + paddle.getWidth());
+        bool isMovingRight = ball.getDirection() == 1;
+
+        if (touchRight) {
+            if (isMovingRight) {
+                ball.setVelocityX(ball.getVelocityX() - 3);
+            } else {
+                ball.setVelocityX(ball.getVelocityX() + 3);
+            }
+        } else {
+            if (isMovingRight) {
+                ball.setVelocityX(ball.getVelocityX() + 3);
+            } else {
+                ball.setVelocityX(ball.getVelocityX() - 3);
+            }
+        }
+        ball.setVelocityY(ball.getVelocityY() * -1);
+    }
 }
 
 void Engine::destroyBrick(int brickIndex)

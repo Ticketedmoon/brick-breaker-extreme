@@ -3,8 +3,6 @@
 Brick::Brick(float width, float height, float x, float y, sf::Color colour) {
     this->x = x;
     this->y = y;
-    this->width=width;
-    this->height=height;
     this->colour = colour;
     this->rectangle = sf::RectangleShape(sf::Vector2f(width, height));
     this->rectangle.setFillColor(colour);
@@ -16,7 +14,7 @@ sf::RectangleShape Brick::getRectangleShapeForBrick() {
 }
 
 float Brick::getWidth() {
-    return this->width;
+    return this->rectangle.getSize().x;
 }
 
 Brick::Brick() = default;
