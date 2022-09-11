@@ -85,7 +85,10 @@ void Engine::onUpdate() {
             gameState = GameState::VICTORY;
         }
         else {
-            gameState = ball.play(paddle, bricks);
+            ball.startMovement();
+            ball.checkForPaddleTouch(paddle);
+            ball.checkForBrickTouch(bricks);
+            GameState currentGameState = ball.checkForWindowBorderCollision();
         }
     }
 }

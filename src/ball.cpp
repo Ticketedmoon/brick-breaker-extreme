@@ -19,19 +19,11 @@ Ball::Ball(float radius, float x, float y, void (*destroyBrick)(int)) {
     this->ballBrickTouchSoundBuffer = buffer;
 }
 
-GameState Ball::play(Paddle paddle, std::vector<Brick>& bricks) 
+void Ball::startMovement() 
 {
-    checkForPaddleTouch(paddle);
-    checkForBrickTouch(bricks);
-
-    // Window touch check
-    GameState currentGameState = checkForWindowBorderCollision();
-
     this->x += velocityX;
     this->y -= velocityY;
-
     this->ball.setPosition(this->x, this->y);
-    return currentGameState;
 }
 
 GameState Ball::checkForWindowBorderCollision()

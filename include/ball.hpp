@@ -25,9 +25,6 @@ private:
 
     void updateVelocityX(float velocity);
     void updateVelocityY(float velocity);
-    GameState checkForWindowBorderCollision();
-    void checkForPaddleTouch(Paddle& paddle);
-    void checkForBrickTouch(std::vector<Brick>& bricks);
 	void (*destroyBrick)(int);
 
 public:
@@ -35,7 +32,12 @@ public:
     Ball(float radius, float x, float y, void (*destroyBrick)(int));
 
     sf::CircleShape getCircleShapeForBall();
-    GameState play(Paddle paddle, std::vector<Brick>& bricks);
+    void startMovement();
+
+    GameState checkForWindowBorderCollision();
+    void checkForPaddleTouch(Paddle& paddle);
+    void checkForBrickTouch(std::vector<Brick>& bricks);
+    
     int getDirection();
     void setDirection(int direction);
 };
