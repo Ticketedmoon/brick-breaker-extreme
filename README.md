@@ -1,5 +1,20 @@
-Brick breaker with additional fun features!  
-This project will serve as my first **C++** game using **Simple and Fast Multimedia Library** (SFML).
+## Brick breaker Extreme!  
+#### This project is my first **C++** game. 
+
+##### Dependencies: 
+- SFML
+
+---
+
+##### In-Motion
+![Sun 11 Sep 2022 16:09:08 IST](https://user-images.githubusercontent.com/21260839/189535571-3ee54d46-833f-4303-bce8-5eae787aafe5.png)
+
+##### Game Over
+![Sun 11 Sep 2022 16:17:28 IST](https://user-images.githubusercontent.com/21260839/189535574-4d078b9a-7dfa-4f2a-a65e-936f27fdb8c2.png)
+
+##### Victory
+![Sun 11 Sep 2022 16:19:30 IST](https://user-images.githubusercontent.com/21260839/189535575-c374cb66-36d8-4d9d-a822-65a1318e09ef.png)
+
 
 --- 
 
