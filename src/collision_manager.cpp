@@ -50,18 +50,16 @@ void CollisionManager::checkForBrickTouch(Ball& ball, std::vector<Brick>& bricks
 
 void CollisionManager::checkForPaddleTouch(Paddle& paddle, Ball& ball) 
 {
+    int diameter = ball.getRadius() * 2;
+    float paddleX = paddle.getRectangleShapeForPaddle().getPosition().x;
+    float paddleY = paddle.getRectangleShapeForPaddle().getPosition().y;
+
     bool isTouchingPaddleX = (
-        (paddle.getRectangleShapeForPaddle().getPosition().x <= ball.getX()) &&
-        (paddle.getRectangleShapeForPaddle().getPosition().x + paddle.getWidth()) >= ball.getX());
+        (paddleX <= ball.getX() + diameter) &&
+        (paddleX + paddle.getWidth()) >= ball.getX());
+    bool isTouchingPaddleY = (paddleY <= ball.getY() + diameter)
+        && (paddleY + paddle.getHeight() >= ball.getY());
 
-    int paddleY = paddle.getRectangleShapeForPaddle().getPosition().y;
-
-    // Offset is to account for the y position pointing to the top-left of the shape.
-    // We need this to be the bottom so we hit the paddle correctly.
-    // So add the radius * 2 for the diameter.
-    int ballYPlusOffset = (ball.getY() + ball.getRadius() * 2);
-
-    bool isTouchingPaddleY = (paddleY - ballYPlusOffset) <= 0;
     if (isTouchingPaddleY && isTouchingPaddleX)
     {
         bool touchRight = (ball.getX() >= paddle.getRectangleShapeForPaddle().getPosition().x + paddle.getWidth() / 2)

@@ -22,4 +22,5 @@ public:
     void moveLeft();
     void moveRight();
     float getWidth();
+    float getHeight();
 };

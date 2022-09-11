@@ -43,3 +43,8 @@ float Paddle::getWidth()
 {
     return this->width;
 }
+
+float Paddle::getHeight() 
+{
+    return this->height;
+}
