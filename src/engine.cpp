@@ -6,14 +6,13 @@ GameState gameState = GameState::PLAYING;
 Ball ball;
 Paddle paddle;
 
-const int TOTAL_BRICKS = 32;
-
-std::vector<Brick> bricks(32, Brick());
+std::vector<Brick> bricks;
 
 const int BRICK_WIDTH = 160;
 const int BRICK_HEIGHT = 40;
+const int TOTAL_BRICKS = 32;
 const int TOTAL_BRICKS_PER_ROW = constants::WINDOW_WIDTH / BRICK_WIDTH;
-const int TOTAL_BRICK_ROWS = bricks.size() / TOTAL_BRICKS_PER_ROW;
+const int TOTAL_BRICK_ROWS = TOTAL_BRICKS < TOTAL_BRICKS_PER_ROW ? TOTAL_BRICKS : TOTAL_BRICKS / TOTAL_BRICKS_PER_ROW;
 
 Engine::Engine() 
 {
@@ -42,6 +41,7 @@ Engine::Engine()
     ball = createBall();
 
     // Create bricks
+    bricks.reserve(TOTAL_BRICKS);
     bricks = createBricks();
 }
 
@@ -114,14 +114,10 @@ void Engine::onRender() {
 
 void Engine::onKeyboardEvent() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) 
     {
         paddle.moveLeft();
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) 
     {
         paddle.moveRight();
@@ -154,10 +150,11 @@ Ball Engine::createBall() {
     return Ball(ballRadius, ballStartX, ballStartY, destroyBrick);
 }
 
-
 std::vector<Brick> Engine::createBricks() 
 {
-    std::vector<Brick> newBricks(TOTAL_BRICKS, Brick());
+    std::vector<Brick> newBricks;
+    newBricks.reserve(TOTAL_BRICKS);
+    
 	for (int i = 0; i < TOTAL_BRICK_ROWS; i++) 
 	{
 		for (int j = 0; j < TOTAL_BRICKS_PER_ROW; j++)
@@ -168,8 +165,7 @@ std::vector<Brick> Engine::createBricks()
 			int g = Utils::randomNumber(0, 255);
 			int b = Utils::randomNumber(0, 255);
  			sf::Color color = sf::Color(r, g, b);
-			int brickIndex = (i * TOTAL_BRICKS_PER_ROW) + j;
-			newBricks[brickIndex] = Brick(BRICK_WIDTH, BRICK_HEIGHT, xPos, yPos, color);
+			newBricks.emplace_back(BRICK_WIDTH, BRICK_HEIGHT, xPos, yPos, color);
 		}
     }
     return newBricks;
