@@ -3,8 +3,8 @@
 #include "game_object.hpp"
 #include <SFML/Graphics/RectangleShape.hpp>
 
-class Paddle : public GameObject {
-
+class Paddle : public GameObject 
+{
 private:
     sf::RectangleShape rectangle;
     float velocity = 15.0;

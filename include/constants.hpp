@@ -8,7 +8,8 @@ namespace constants
 	inline const int Y_SCREEN_LOCATION_OFFSET = 320;
 }
 
-enum GameState { 
+enum GameState 
+{ 
 	PLAYING, 
 	GAMEOVER, 
 	VICTORY 

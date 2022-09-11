@@ -42,8 +42,7 @@ Engine::Engine()
     ball = createBall();
 
     // Create bricks
-    bricks.reserve(TOTAL_BRICKS);
-    bricks = createBricks();
+    createBricks();
 }
 
 // Note: Run until window is closed
@@ -80,12 +79,14 @@ void Engine::draw()
 }
 
 void Engine::onUpdate() {
-    if (gameState == GameState::PLAYING) {
+    if (gameState == GameState::PLAYING) 
+    {
         if (bricks.size() == 0) 
         {
             gameState = GameState::VICTORY;
         }
-        else {
+        else 
+        {
             ball.startMovement();
             checkForPaddleTouch();
             checkForBrickTouch();
@@ -116,7 +117,8 @@ void Engine::onRender() {
     window.display();
 }
 
-void Engine::onKeyboardEvent() {
+void Engine::onKeyboardEvent() 
+{
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) 
     {
         paddle.moveLeft();
@@ -134,12 +136,13 @@ void Engine::onKeyboardEvent() {
             gameState = GameState::PLAYING;
             ball = createBall();
             paddle = createPaddle();
-            bricks = createBricks();
+            createBricks();
         }
     }
 }
 
-Paddle Engine::createPaddle() {
+Paddle Engine::createPaddle() 
+{
     const float paddleWidth = 200.f;
     const float paddleHeight = 10.f;
     float paddleXPosition = (window.getSize().x / 2.f) - (paddleWidth / 2.f);
@@ -147,18 +150,17 @@ Paddle Engine::createPaddle() {
     return Paddle(paddleWidth, paddleHeight, paddleXPosition, paddleYPosition);
 }
 
-Ball Engine::createBall() {
+Ball Engine::createBall() 
+{
     const float ballRadius = 20.f;
     float ballStartX = (window.getSize().x / 2.f) - ballRadius;
     float ballStartY = (window.getSize().y / 2.f) - ballRadius;
     return Ball(ballRadius, ballStartX, ballStartY);
 }
 
-std::vector<Brick> Engine::createBricks() 
+void Engine::createBricks() 
 {
-    std::vector<Brick> newBricks;
-    newBricks.reserve(TOTAL_BRICKS);
-    
+    bricks.reserve(TOTAL_BRICKS);
 	for (int i = 0; i < TOTAL_BRICK_ROWS; i++) 
 	{
 		for (int j = 0; j < TOTAL_BRICKS_PER_ROW; j++)
@@ -169,10 +171,9 @@ std::vector<Brick> Engine::createBricks()
 			int g = Utils::randomNumber(0, 255);
 			int b = Utils::randomNumber(0, 255);
  			sf::Color color = sf::Color(r, g, b);
-			newBricks.emplace_back(BRICK_WIDTH, BRICK_HEIGHT, xPos, yPos, color);
+			bricks.emplace_back(BRICK_WIDTH, BRICK_HEIGHT, xPos, yPos, color);
 		}
     }
-    return newBricks;
 }
 
 void Engine::checkForWindowBorderCollision()
@@ -201,12 +202,12 @@ void Engine::checkForWindowBorderCollision()
 void Engine::checkForBrickTouch() {
     for (int i = 0; i < bricks.size(); i++)
     {
-        Brick brick = bricks[i];
+        Brick* brick = &bricks.at(i);
         float tolerance = 10.0;
-		bool isBallAfterBrickStartX = brick.getRectangleShapeForBrick().getPosition().x <= (ball.getX()+ball.getRadius());
-		bool isBallBeforeBrickEndX = (brick.getRectangleShapeForBrick().getPosition().x + brick.getWidth()) >= ball.getX();
+		bool isBallAfterBrickStartX = brick->getRectangleShapeForBrick().getPosition().x <= (ball.getX()+ball.getRadius());
+		bool isBallBeforeBrickEndX = (brick->getRectangleShapeForBrick().getPosition().x + brick->getWidth()) >= ball.getX();
         bool isTouchingBrickX = isBallAfterBrickStartX && isBallBeforeBrickEndX;
-        bool isTouchingBrickY = (ball.getY() - brick.getRectangleShapeForBrick().getPosition().y) <= tolerance;
+        bool isTouchingBrickY = (ball.getY() - brick->getRectangleShapeForBrick().getPosition().y) <= tolerance;
         if (isTouchingBrickY && isTouchingBrickX)
         {
         	ball.setVelocityY(-ball.getVelocityY());
@@ -217,7 +218,8 @@ void Engine::checkForBrickTouch() {
     }
 }
 
-void Engine::checkForPaddleTouch() {
+void Engine::checkForPaddleTouch() 
+{
     bool isTouchingPaddleX = (
         (paddle.getRectangleShapeForPaddle().getPosition().x <= ball.getX()) &&
         (paddle.getRectangleShapeForPaddle().getPosition().x + paddle.getWidth()) >= ball.getX());
@@ -236,16 +238,23 @@ void Engine::checkForPaddleTouch() {
             && (ball.getX() <= paddle.getRectangleShapeForPaddle().getPosition().x + paddle.getWidth());
         bool isMovingRight = ball.getDirection() == 1;
 
-        if (touchRight) {
-            if (isMovingRight) {
+        if (touchRight) 
+        {
+            if (isMovingRight) 
+            {
                 ball.setVelocityX(ball.getVelocityX() - 3);
-            } else {
+            } else 
+            {
                 ball.setVelocityX(ball.getVelocityX() + 3);
             }
-        } else {
-            if (isMovingRight) {
+        } else 
+        {
+            if (isMovingRight) 
+            {
                 ball.setVelocityX(ball.getVelocityX() + 3);
-            } else {
+            } 
+            else 
+            {
                 ball.setVelocityX(ball.getVelocityX() - 3);
             }
         }
@@ -260,7 +269,8 @@ void Engine::destroyBrick(int brickIndex)
 	std::cout << "bricks size: " << bricks.size() << '\n';
 }
 
-void Engine::showViewOnGameStateChange(std::string text, sf::Color backgroundColor, sf::Color textColour) {
+void Engine::showViewOnGameStateChange(std::string text, sf::Color backgroundColor, sf::Color textColour) 
+{
     sf::Text sf_text = sf::Text(text, font);
     window.clear(backgroundColor);
     sf_text.setFillColor(textColour);

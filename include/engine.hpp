@@ -23,7 +23,7 @@ private:
 
     Paddle createPaddle();
     Ball createBall();
-    std::vector<Brick> createBricks();
+    void createBricks();
 
     void checkForWindowBorderCollision();
     void checkForPaddleTouch();

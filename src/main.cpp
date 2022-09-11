@@ -1,6 +1,7 @@
 #include "engine.hpp"
 
-int main() {
+int main() 
+{
     Engine engine;
     engine.run();
     return 0;

@@ -1,7 +1,7 @@
 #pragma once
 
-class GameObject {
-
+class GameObject 
+{
 protected:
     float x;
     float y;

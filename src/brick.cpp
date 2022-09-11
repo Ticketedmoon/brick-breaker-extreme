@@ -1,6 +1,7 @@
 #include "brick.hpp"
 
-Brick::Brick(float width, float height, float x, float y, sf::Color colour) {
+Brick::Brick(float width, float height, float x, float y, sf::Color colour) 
+{
     this->x = x;
     this->y = y;
     this->colour = colour;
@@ -9,11 +10,13 @@ Brick::Brick(float width, float height, float x, float y, sf::Color colour) {
     this->rectangle.setPosition(x, y);
 }
 
-sf::RectangleShape Brick::getRectangleShapeForBrick() {
+sf::RectangleShape Brick::getRectangleShapeForBrick() 
+{
     return this->rectangle;
 }
 
-float Brick::getWidth() {
+float Brick::getWidth() 
+{
     return this->rectangle.getSize().x;
 }
 

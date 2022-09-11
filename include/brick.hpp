@@ -3,7 +3,8 @@
 #include "game_object.hpp"
 #include <SFML/Graphics/RectangleShape.hpp>
 
-class Brick : public GameObject {
+class Brick : public GameObject 
+{
 private:
     sf::Color colour;
     sf::RectangleShape rectangle;

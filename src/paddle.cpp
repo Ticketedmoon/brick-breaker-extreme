@@ -3,7 +3,8 @@
 
 Paddle::Paddle() = default;
 
-Paddle::Paddle(float width, float height, float x, float y) {
+Paddle::Paddle(float width, float height, float x, float y) 
+{
     this->x = x;
     this->y = y;
     this->width = width;
@@ -12,20 +13,24 @@ Paddle::Paddle(float width, float height, float x, float y) {
     this->rectangle.setPosition(x, y);
 }
 
-sf::RectangleShape Paddle::getRectangleShapeForPaddle() {
+sf::RectangleShape Paddle::getRectangleShapeForPaddle() 
+{
     return rectangle;
 }
 
-void Paddle::moveLeft() {
+void Paddle::moveLeft() 
+{
     x -= velocity;
     this->rectangle.setPosition(x, this->y);
 }
 
-void Paddle::moveRight() {
+void Paddle::moveRight() 
+{
     x += velocity;
     this->rectangle.setPosition(x, this->y);
 }
 
-float Paddle::getWidth() {
+float Paddle::getWidth() 
+{
     return this->width;
 }

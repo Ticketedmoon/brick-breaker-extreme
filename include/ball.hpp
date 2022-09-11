@@ -10,8 +10,8 @@
 #include "game_object.hpp"
 #include "audio_manager.hpp"
 
-class Ball : public GameObject {
-
+class Ball : public GameObject 
+{
 private:
     float radius;
     float velocityX = 10.0;

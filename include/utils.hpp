@@ -1,7 +1,7 @@
 #include <random>
 
-class Utils {
-
+class Utils 
+{
 public:
     static double randomNumber(int start, int end);
 };
