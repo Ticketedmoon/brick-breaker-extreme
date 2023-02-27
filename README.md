@@ -29,8 +29,10 @@ For Windows, you can install through https://www.sfml-dev.org/
 Once you've progressed passed this step, you can now compile the src code.  
 
 For Ubuntu/Debian distros, you can execute `run_compile.sh` for the program to be compiled.  
-**Note:** If this doesn't work, open the `run_compile.sh` file and identify if the sfml libraries are being linked to correctly.  
-  
+**Note:** If this doesn't work for your OS, open the `run_compile.sh` file and identify if the sfml libraries are being linked to correctly,
+there may be differences on different unix systems.
+
+### Compiling the Source code
 The command to compile the source code, specify the headers and link to external libs is:  
 `g++ ./src/*.cpp -o brick-breaker-extreme.exe -I./include -lsfml-graphics -lsfml-window -lsfml-system`
 
