@@ -20,8 +20,8 @@
 
 ### How to set up
 **Linux**  
-To set up on linux, you will need to install SFML through.  
-The easiest way to do this is through the your package manager. For Ubuntu/Debian, you can install by running: `setup.sh` or directly with `sudo apt-get install libsfml-dev`.
+SFML installation will be required on Linux.   
+The easiest way to do this is through the your package manager. For Ubuntu/Debian, you can install by running the script: `setup.sh` or directly with `sudo apt-get install libsfml-dev`.
 
 **Windows**
 For Windows, you can install through https://www.sfml-dev.org/  
