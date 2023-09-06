@@ -20,17 +20,19 @@
 
 ### How to set up
 **Linux**  
-To set up on linux, you will need to install SFML through.  
-The easiest way to do this is through the your package manager. For Ubuntu/Debian, you can install by running: `setup.sh` or directly with `sudo apt-get install libsfml-dev`.
+SFML installation will be required on Linux.   
+The easiest way to do this is through the your package manager. For Ubuntu/Debian, you can install by running the script: `setup.sh` or directly with `sudo apt-get install libsfml-dev`.
 
 **Windows**
 For Windows, you can install through https://www.sfml-dev.org/  
 
 Once you've progressed passed this step, you can now compile the src code.  
 
+### Compiling the Source code
 For Ubuntu/Debian distros, you can execute `run_compile.sh` for the program to be compiled.  
-**Note:** If this doesn't work, open the `run_compile.sh` file and identify if the sfml libraries are being linked to correctly.  
-  
+**Note:** If this doesn't work for your OS, open the `run_compile.sh` file and identify if the sfml libraries are being linked to correctly,
+there may be differences on different unix systems.
+
 The command to compile the source code, specify the headers and link to external libs is:  
 `g++ ./src/*.cpp -o brick-breaker-extreme.exe -I./include -lsfml-graphics -lsfml-window -lsfml-system`
 

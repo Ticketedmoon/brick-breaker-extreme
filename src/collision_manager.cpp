@@ -27,7 +27,8 @@ GameState CollisionManager::checkForWindowBorderCollision(Ball& ball)
     return GameState::PLAYING;
 }
 
-void CollisionManager::checkForBrickTouch(Ball& ball, std::vector<Brick>& bricks) {
+void CollisionManager::checkForBrickTouch(Ball& ball, std::vector<Brick>& bricks) 
+{
     for (int i = 0; i < bricks.size(); i++)
     {
         Brick* brick = &bricks.at(i);
@@ -75,7 +76,8 @@ void CollisionManager::checkForPaddleTouch(Paddle& paddle, Ball& ball)
             {
                 ball.setVelocityX(ball.getVelocityX() + 3);
             }
-        } else 
+        } 
+		else 
         {
             if (isMovingRight) 
             {
